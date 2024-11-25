@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+      <div class="sidebar">
+          <h2>Usuarios</h2>
+          <ul class="users-list">
+              {% for username, user in users.items() %}
+                  <li>
+                      <a href="{{ url_for('profile', username=username) }}">{{ user.name }}</a>
+                  </li>
+              {% endfor %}
+          </ul>
+      </div>
+
+      <div class="main-content">
+          <h1>Inicio</h1>
+
+          <form action="{{ url_for('create_post') }}" method="post" class="post-form">
+              <textarea name="content" placeholder="¿Qué estás pensando?"></textarea>
+              <button type="submit">Publicar</button>
+          </form>
+
+          <div class="posts">
+              {% for post in posts %}
+                  <div class="post">
+                      <div class="post-header">
+                          <a href="{{ url_for('profile', username=post.author.username) }}" class="author-name">
+                              {{ post.author.name }}
+                          </a>
+                      </div>
+                      <p class="post-content">{{ post.content }}</p>
+                      <div class="post-footer">
+                          <span>Likes: {{ post.likes|length }}</span>
+                          <span>Comentarios: {{ post.comments|length }}</span>
+                      </div>
+                  </div>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+{% endblock %}

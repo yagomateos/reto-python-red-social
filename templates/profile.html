@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+      <div class="sidebar">
+          <h2>Usuarios</h2>
+          <ul class="users-list">
+              {% for username, user in users.items() %}
+                  <li>
+                      <a href="{{ url_for('profile', username=username) }}">{{ user.name }}</a>
+                  </li>
+              {% endfor %}
+          </ul>
+      </div>
+
+      <div class="main-content">
+          <div class="profile-header">
+              <h1>Perfil de {{ user.name }}</h1>
+              <form action="{{ url_for('follow_user', username=user.username) }}" method="post">
+                  <button type="submit" class="follow-button">Seguir</button>
+              </form>
+          </div>
+
+          <div class="profile-stats">
+              <p>Seguidores: {{ user.followers|length }}</p>
+              <p>Siguiendo: {{ user.following|length }}</p>
+          </div>
+
+          <h2>Posts</h2>
+          <div class="posts">
+              {% for post in user.posts %}
+                  <div class="post">
+                      <p class="post-content">{{ post.content }}</p>
+                      <div class="post-footer">
+                          <span>Likes: {{ post.likes|length }}</span>
+                          <span>Comentarios: {{ post.comments|length }}</span>
+                      </div>
+                  </div>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+{% endblock %}
